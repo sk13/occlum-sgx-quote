@@ -71,9 +71,9 @@ impl IoctlClient {
 
     fn get_quote_size(&mut self) -> Result<u32, SGXError> {
         if self.quote_size.is_none() {
-            let size: u32 = 0;
+            let mut size: u32 = 0;
             trace!("ioctl(SGX_IOCTL_GET_DCAP_QUOTE_SIZE): Get DCAP Quote size");
-            let ret = unsafe { libc::ioctl(self.fd()?, IOCTL_GET_DCAP_QUOTE_SIZE, &size) };
+            let ret = unsafe { libc::ioctl(self.fd()?, IOCTL_GET_DCAP_QUOTE_SIZE, &mut size) };
 
             if ret < 0 {
                 return Err(SGXError::IoctlClientError {
@@ -111,9 +111,9 @@ impl IoctlClient {
 
     fn get_supplemental_size(&mut self) -> Result<u32, SGXError> {
         if self.supplemental_size.is_none() {
-            let size: u32 = 0;
+            let mut size: u32 = 0;
             trace!("ioctl(IOCTL_GET_DCAP_SUPPLEMENTAL_SIZE): Get Supplemental size");
-            let ret = unsafe { libc::ioctl(self.fd()?, IOCTL_GET_DCAP_SUPPLEMENTAL_SIZE, &size) };
+            let ret = unsafe { libc::ioctl(self.fd()?, IOCTL_GET_DCAP_SUPPLEMENTAL_SIZE, &mut size) };
 
             if ret < 0 {
                 return Err(SGXError::IoctlClientError {
